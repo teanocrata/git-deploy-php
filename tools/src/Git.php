@@ -82,7 +82,7 @@ class Git {
         } else {
             foreach ($result as $file) {
                 if (!in_array($file, $submodule_paths)) {
-                    $return['upload'][$file] = $this->get_file_contents("$target_commit:$file");
+                    $return['upload'][$file] = $this->get_file_contents("$target_commit./:$file");
                 }
             }
         }
