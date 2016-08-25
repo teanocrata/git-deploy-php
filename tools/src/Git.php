@@ -43,7 +43,7 @@ class Git {
         }
 
         if (!empty($current_commit)) {
-            $command = "diff --no-renames --name-status {$current_commit} {$target_commit}";
+            $command = "diff --no-renames --name-status --relative {$current_commit} {$target_commit}";
         } else {
             $command = "ls-files";
         }
@@ -68,7 +68,7 @@ class Git {
             foreach ($result as $line) {
                 if ($line[0] == 'A' or $line[0] == 'C' or $line[0] == 'M') {
                     $path = trim(substr($line, 1, strlen($line)));
-                    $return['upload'][$path] = $this->get_file_contents("$target_commit:\"$path\"");
+                    $return['upload'][$path] = $this->get_file_contents("$target_commit:./\"$path\"");
                 } elseif ($line[0] == 'D') {
                     $return['delete'][] = trim(substr($line, 1, strlen($line)));
                 } elseif ($line[0] == 'R') {
