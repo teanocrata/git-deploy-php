@@ -18,10 +18,18 @@ class Config {
             $deploy = $deploy_file . (substr($deploy_file, -4) === '.ini' ? '' : '.ini');
         }
 
-        $opts = getopt("lr:d:c:", array("revert", "log::", "repo:"));
+        $opts = getopt("lr:d:c:", array("revert", "log::", "repo:", "FTP_USER:", "FTP_PASSWORD:"));
 
         if (isset($opts['log'])) {
-            define('WRITE_TO_LOG', $opts['revert'] ? $opts['revert'] : 'git_deploy_php_log.txt');
+            define('WRITE_TO_LOG', $opts['log'] ? $opts['log'] : 'git_deploy_php_log.txt');
+        }
+
+	if (isset($opts['FTP_USER'])){
+	    define('FTP_USER', $opts['FTP_USER']);
+        }
+
+        if (isset($opts['FTP_PASSWORD'])){
+        	define('FTP_PASSWORD', $opts['FTP_PASSWORD']);
         }
 
         if (isset($opts['d'])) {
@@ -74,6 +82,17 @@ class Config {
                     'ignore_directories' => array(),
                     'upload_untracked' => array(),
                 ), $options);
+
+
+                if(defined("FTP_USER"))
+                {
+                	$options['user'] = FTP_USER;
+                }
+
+                if(defined("FTP_PASSWORD"))
+                {
+                	$options['pass'] = FTP_PASSWORD;
+                }
 
                 if (!isset($options['pass']) && !isset($options['sftp_key'])) {
                     $options['pass'] = self::promptPassword();
