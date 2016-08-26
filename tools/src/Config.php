@@ -41,7 +41,7 @@ class Config {
         }
 
         if (isset($opts['repo'])) {
-            $repo_path = $opts['repo'];
+            $repo_path = getcwd() . DIRECTORY_SEPARATOR . $opts['repo'];
         } else {
             $repo_path = getcwd() . DIRECTORY_SEPARATOR;
         }
@@ -86,7 +86,7 @@ class Config {
 
                 if(defined("FTP_USER"))
                 {
-                	$options['user'] = FTP_USER;
+	               	$options['user'] = FTP_USER;
                 }
 
                 if(defined("FTP_PASSWORD"))
